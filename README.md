@@ -4,7 +4,7 @@
 
 ```
 npm init -y
-npm i express mongoose
+npm i express mongoose cors
 npm i nodemon --save-dev
 touch index.js
 ```

@@ -2,13 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Todo = require("./model/Todo");
 
+const app = express();
+
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://localhost:27017/express-basics");
+  await mongoose.connect("mongodb://localhost:27017/express-delete");
 }
-
-const app = express();
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -77,6 +77,6 @@ app.patch("/todos/:id", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
+app.listen(5500, () => {
   console.log("Server running in port 5000.");
 });

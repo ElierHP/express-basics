@@ -81,14 +81,6 @@ app.patch("/todos/:id", async (req, res) => {
   }
 });
 
-app.post("/practice", (req, res) => {
-  const { name, text } = req.body;
-  console.log(req.body);
-  console.log(req.body.name);
-  console.log(req.body.text);
-  res.send("ok");
-});
-
 app.listen(5000, () => {
   console.log("Server running in port 5000.");
 });

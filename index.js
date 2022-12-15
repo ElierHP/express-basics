@@ -1,15 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Todo = require("./model/Todo");
+const cors = require("cors");
 
 const app = express();
 
+// Server connection
 main().catch((err) => console.log(err));
-
 async function main() {
   await mongoose.connect("mongodb://localhost:27017/express-delete");
 }
 
+// CONFIG
+app.use(cors());
+app.use(express.json());
+
+// ROUTES
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -49,11 +55,11 @@ app.get("/todos/:id", async (req, res) => {
 });
 
 app.post("/todos", async (req, res) => {
-  if (req.query.name) {
-    const todo = await Todo.create({ name: req.query.name });
+  try {
+    const todo = await Todo.create({ name: req.body.name });
     res.send(todo);
-  } else {
-    res.send("Error, no query was provided.");
+  } catch (error) {
+    res.send("error creating todo.");
   }
 });
 
@@ -68,15 +74,13 @@ app.delete("/todos/:id", async (req, res) => {
 
 app.patch("/todos/:id", async (req, res) => {
   try {
-    await Todo.findByIdAndUpdate(req.params.id, {
-      name: req.query.name,
-    });
-    res.send("Successfully updated the todo item.");
+    await Todo.findByIdAndUpdate(req.params.id, { name: req.body.name });
+    res.send({ status: 200, message: "Successfully updated todo." });
   } catch (error) {
-    res.send("Error, failed to update.");
+    res.send({ status: 404, message: "Failed to update todo." });
   }
 });
 
-app.listen(5500, () => {
+app.listen(5000, () => {
   console.log("Server running in port 5000.");
 });
